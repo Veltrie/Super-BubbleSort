@@ -1,0 +1,77 @@
+using System;
+using System.Diagnostics;
+
+namespace OptimizedBubbleSort
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int arraySize = 500000;
+            int[] arr = GenerateRandomArray(arraySize);
+
+            Stopwatch originalTimestamp = Stopwatch.StartNew();
+            Console.WriteLine("Original Array:");
+            PrintArray(arr);
+            originalTimestamp.Stop();
+            Console.WriteLine($"\nTime taken to print original array: {originalTimestamp.ElapsedMilliseconds} ms\n");
+
+            Stopwatch sortingTimestamp = Stopwatch.StartNew();
+            OptimizedBubbleSort(arr);
+            sortingTimestamp.Stop();
+            Console.WriteLine($"\nTime taken to optimized bubble sort array: {sortingTimestamp.ElapsedMilliseconds} ms\n");
+
+            Console.WriteLine("Sorted Array:");
+            PrintArray(arr);
+
+            Console.ReadLine();
+        }
+
+        static int[] GenerateRandomArray(int size)
+        {
+            int[] randomArray = new int[size];
+            Random random = new Random();
+
+            for (int i = 0; i < size; i++)
+            {
+                randomArray[i] = random.Next();
+            }
+
+            return randomArray;
+        }
+
+        static void OptimizedBubbleSort(int[] arr)
+        {
+            int n = arr.Length;
+            bool swapped;
+
+            do
+            {
+                swapped = false;
+
+                for (int i = 0; i < n - 1; i++)
+                {
+                    if (arr[i] > arr[i + 1])
+                    {
+                        // Swap elements
+                        int temp = arr[i];
+                        arr[i] = arr[i + 1];
+                        arr[i + 1] = temp;
+
+                        swapped = true;
+                    }
+                }
+
+                // Reduce the range of the array to be considered in the next pass
+                n--;
+
+            } while (swapped);
+        }
+
+        static void PrintArray(int[] arr)
+        {
+            foreach (int p in arr)
+                Console.Write(p + " ");
+        }
+    }
+}
